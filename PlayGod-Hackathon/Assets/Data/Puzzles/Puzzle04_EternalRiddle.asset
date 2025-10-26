@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099188c4d24884a45968a3ffcf1dc342, type: 3}
+  m_Name: Puzzle04_EternalRiddle
+  m_EditorClassIdentifier: 
+  puzzleName: The Eternal Riddle
+  difficultyLevel: 4
+  riddleSentence: When the guardian's crimson eye closes, the wanderers seek shelter
+    in crystal caves.
+  targetTranslation: When the lighthouse's red light turns off, the sailors seek safety
+    in ice harbors.
+  wordMappings:
+  - riddleWord: guardian
+    actualMeaning: lighthouse
+    hint: A tower that guides ships
+  - riddleWord: crimson
+    actualMeaning: red
+    hint: A deep red color
+  - riddleWord: eye
+    actualMeaning: light
+    hint: What a lighthouse emits
+  - riddleWord: closes
+    actualMeaning: turns off
+    hint: Stops shining
+  - riddleWord: wanderers
+    actualMeaning: sailors
+    hint: People who travel the seas
+  - riddleWord: shelter
+    actualMeaning: safety
+    hint: Protection from danger
+  - riddleWord: crystal
+    actualMeaning: ice
+    hint: Frozen water
+  - riddleWord: caves
+    actualMeaning: harbors
+    hint: Safe places for ships
+  maxQuestionsForPerfect: 8
+  maxQuestionsForGood: 16
+  maxQuestionsForPass: 22
+  characterProjectId: cmh7ovbdh0001jv04rzd4wyys
+  systemPromptTemplate: 
+

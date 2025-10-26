@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099188c4d24884a45968a3ffcf1dc342, type: 3}
+  m_Name: Puzzle02_SilentOcean
+  m_EditorClassIdentifier: 
+  puzzleName: The Silent Ocean
+  difficultyLevel: 2
+  riddleSentence: The whisper dances through the stone garden where shadows drink.
+  targetTranslation: The wind flows through the desert where cacti grow.
+  wordMappings:
+  - riddleWord: whisper
+    actualMeaning: wind
+    hint: An invisible force of nature
+  - riddleWord: dances
+    actualMeaning: flows
+    hint: Moves smoothly and continuously
+  - riddleWord: stone
+    actualMeaning: desert
+    hint: A vast, dry landscape
+  - riddleWord: garden
+    actualMeaning: where
+    hint: A connecting word, a place indicator
+  - riddleWord: shadows
+    actualMeaning: cacti
+    hint: Desert plants with spines
+  - riddleWord: drink
+    actualMeaning: grow
+    hint: What plants do
+  maxQuestionsForPerfect: 6
+  maxQuestionsForGood: 12
+  maxQuestionsForPass: 18
+  characterProjectId: cmh7ovbdh0001jv04rzd4wyys
+  systemPromptTemplate: 
+

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099188c4d24884a45968a3ffcf1dc342, type: 3}
+  m_Name: Puzzle05_CosmicParadox
+  m_EditorClassIdentifier: 
+  puzzleName: The Cosmic Paradox
+  difficultyLevel: 5
+  riddleSentence: The scholar's quill inscribes forgotten symphonies upon the breathing
+    canvas while the eternal flame devours memories.
+  targetTranslation: The artist's brush paints silent music upon the living paper
+    while the endless fire consumes thoughts.
+  wordMappings:
+  - riddleWord: scholar
+    actualMeaning: artist
+    hint: A creator of visual works
+  - riddleWord: quill
+    actualMeaning: brush
+    hint: A painting tool
+  - riddleWord: inscribes
+    actualMeaning: paints
+    hint: Creates visual art
+  - riddleWord: forgotten
+    actualMeaning: silent
+    hint: Without sound
+  - riddleWord: symphonies
+    actualMeaning: music
+    hint: Harmonious sounds
+  - riddleWord: breathing
+    actualMeaning: living
+    hint: Alive
+  - riddleWord: canvas
+    actualMeaning: paper
+    hint: Surface for art
+  - riddleWord: eternal
+    actualMeaning: endless
+    hint: Never-ending
+  - riddleWord: flame
+    actualMeaning: fire
+    hint: Burning element
+  - riddleWord: devours
+    actualMeaning: consumes
+    hint: Eats up
+  - riddleWord: memories
+    actualMeaning: thoughts
+    hint: Mental processes
+  maxQuestionsForPerfect: 10
+  maxQuestionsForGood: 18
+  maxQuestionsForPass: 25
+  characterProjectId: cmh7ovbdh0001jv04rzd4wyys
+  systemPromptTemplate: 
+

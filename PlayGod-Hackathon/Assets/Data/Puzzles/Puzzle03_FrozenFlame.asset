@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099188c4d24884a45968a3ffcf1dc342, type: 3}
+  m_Name: Puzzle03_FrozenFlame
+  m_EditorClassIdentifier: 
+  puzzleName: The Frozen Flame
+  difficultyLevel: 3
+  riddleSentence: The ancient tower weeps silver tears beneath the emerald veil.
+  targetTranslation: The old mountain sheds white snow beneath the blue sky.
+  wordMappings:
+  - riddleWord: ancient
+    actualMeaning: old
+    hint: A simpler word for aged
+  - riddleWord: tower
+    actualMeaning: mountain
+    hint: A natural tall formation
+  - riddleWord: weeps
+    actualMeaning: sheds
+    hint: Releases from itself
+  - riddleWord: silver
+    actualMeaning: white
+    hint: A color, not a metal
+  - riddleWord: tears
+    actualMeaning: snow
+    hint: Frozen water from the sky
+  - riddleWord: emerald
+    actualMeaning: blue
+    hint: The color of the sky
+  - riddleWord: veil
+    actualMeaning: sky
+    hint: What covers everything above
+  maxQuestionsForPerfect: 7
+  maxQuestionsForGood: 14
+  maxQuestionsForPass: 20
+  characterProjectId: cmh7ovbdh0001jv04rzd4wyys
+  systemPromptTemplate: 
+
