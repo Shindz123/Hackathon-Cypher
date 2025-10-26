@@ -51,11 +51,25 @@ namespace Lexicon.AI
         
         private void SendInitialGreeting()
         {
+            if (currentPuzzle == null)
+            {
+                Debug.LogWarning("Cannot send initial greeting: No puzzle loaded");
+                return;
+            }
+            
             // This will be displayed in the chat as the AI's opening message
             string greeting = $"Greetings, seeker of truth. I am Lexara, keeper of riddles.\n\nPonder this mystery:\n\n\"{currentPuzzle.RiddleSentence}\"\n\nAsk your questions wisely, and you may uncover what lies beneath the veil of words.";
             
-            // Broadcast as initial message without calling API
-            BroadcastAIMessage(greeting);
+            // Broadcast as initial message without calling API (safely)
+            try
+            {
+                BroadcastAIMessage(greeting);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"Could not broadcast initial greeting (chat UI may not be set up): {e.Message}");
+                Debug.Log($"Initial Greeting (not displayed): {greeting}");
+            }
         }
         
         public void AskQuestion(string question)

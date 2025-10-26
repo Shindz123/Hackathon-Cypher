@@ -68,10 +68,17 @@ namespace Lexicon.UI
             if (string.IsNullOrEmpty(message))
                 return;
             
-            // Add player message to chat
-            if (chatPanel != null)
+            // Add player message to chat (with error handling)
+            try
             {
-                chatPanel.AddMessage(message, true);
+                if (chatPanel != null)
+                {
+                    chatPanel.AddMessage(message, true);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"Could not add player message to chat panel: {e.Message}");
             }
             
             // Check for special commands
@@ -93,10 +100,17 @@ namespace Lexicon.UI
                 return;
             }
             
-            // Show thinking indicator
-            if (thinkingIndicator != null)
+            // Show thinking indicator (with null check)
+            try
             {
-                thinkingIndicator.Display(true);
+                if (thinkingIndicator != null)
+                {
+                    thinkingIndicator.Display(true);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"Could not show thinking indicator: {e.Message}");
             }
             
             // Send to AI
@@ -108,16 +122,31 @@ namespace Lexicon.UI
         
         private void OnAIResponse(ChatResponse response)
         {
-            // Hide thinking indicator
-            if (thinkingIndicator != null)
+            // Hide thinking indicator (with null check)
+            try
             {
-                thinkingIndicator.Display(false);
+                if (thinkingIndicator != null)
+                {
+                    thinkingIndicator.Display(false);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"Could not hide thinking indicator: {e.Message}");
             }
             
-            // Add to chat panel
-            if (chatPanel != null)
+            // Add to chat panel (with error handling)
+            try
             {
-                chatPanel.AddMessage(response.message, false);
+                if (chatPanel != null)
+                {
+                    chatPanel.AddMessage(response.message, false);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"Could not add message to chat panel: {e.Message}");
+                Debug.Log($"AI Response: {response.message}");
             }
             
             // Update visual novel UI

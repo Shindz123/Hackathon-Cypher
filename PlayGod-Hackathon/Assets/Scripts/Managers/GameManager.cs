@@ -59,17 +59,39 @@ namespace Lexicon.Managers
         
         public void LoadPuzzleScene()
         {
-            SceneManager.LoadScene("PuzzleScene");
+            try
+            {
+                Debug.Log($"Loading PuzzleScene for puzzle index: {currentPuzzleIndex}");
+                SceneManager.LoadScene("PuzzleScene");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to load PuzzleScene! Make sure 'PuzzleScene' is added to Build Settings.\nError: {e.Message}");
+            }
         }
         
         public void LoadMainMenu()
         {
-            SceneManager.LoadScene("MainMenu");
+            try
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to load MainMenu! Error: {e.Message}");
+            }
         }
         
         public void LoadResultsScene()
         {
-            SceneManager.LoadScene("ResultsScene");
+            try
+            {
+                SceneManager.LoadScene("ResultsScene");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to load ResultsScene! Error: {e.Message}");
+            }
         }
         
         public PuzzleData GetCurrentPuzzle()
