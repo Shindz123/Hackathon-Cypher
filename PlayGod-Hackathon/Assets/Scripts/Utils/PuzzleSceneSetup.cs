@@ -32,13 +32,13 @@ namespace Lexicon.Utils
         {
             // Find components if not assigned
             if (puzzleManager == null)
-                puzzleManager = FindObjectOfType<PuzzleManager>();
+                puzzleManager = FindFirstObjectByType<PuzzleManager>();
             
             if (aiController == null)
-                aiController = FindObjectOfType<LexiconAIController>();
+                aiController = FindFirstObjectByType<LexiconAIController>();
             
             if (smartAgent == null)
-                smartAgent = FindObjectOfType<NeocortexSmartAgent>();
+                smartAgent = FindFirstObjectByType<NeocortexSmartAgent>();
             
             // Get current puzzle
             PuzzleData currentPuzzle = GameManager.Instance?.GetCurrentPuzzle();
@@ -68,13 +68,13 @@ namespace Lexicon.Utils
         {
             // Auto-find components in editor
             if (puzzleManager == null)
-                puzzleManager = FindObjectOfType<PuzzleManager>();
+                puzzleManager = FindFirstObjectByType<PuzzleManager>();
             
             if (aiController == null)
-                aiController = FindObjectOfType<LexiconAIController>();
+                aiController = FindFirstObjectByType<LexiconAIController>();
             
             if (smartAgent == null)
-                smartAgent = FindObjectOfType<NeocortexSmartAgent>();
+                smartAgent = FindFirstObjectByType<NeocortexSmartAgent>();
         }
     }
 }

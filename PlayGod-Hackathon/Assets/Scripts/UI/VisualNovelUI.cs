@@ -23,7 +23,8 @@ namespace Lexicon.UI
         [SerializeField] private TextMeshProUGUI scoreTierText;
         
         [Header("Riddle Display")]
-        [SerializeField] private TextMeshProUGUI riddleText;
+        [SerializeField] private RiddleDisplay riddleDisplay;
+        [SerializeField] private TextMeshProUGUI riddleText; // Legacy fallback
         
         private bool isTyping = false;
         private string fullText = "";
@@ -122,8 +123,16 @@ namespace Lexicon.UI
         
         public void SetRiddleText(string riddle)
         {
-            if (riddleText != null)
+            // Use RiddleDisplay if available (with highlighting)
+            if (riddleDisplay != null)
+            {
+                riddleDisplay.RefreshRiddle();
+            }
+            // Fallback to plain text display
+            else if (riddleText != null)
+            {
                 riddleText.text = riddle;
+            }
         }
         
         public void HideDialoguePanel()

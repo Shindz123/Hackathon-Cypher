@@ -32,8 +32,8 @@ namespace Lexicon.UI
         
         private void Start()
         {
-            puzzleManager = FindObjectOfType<PuzzleManager>();
-            wordMappingPanel = FindObjectOfType<WordMappingPanel>();
+            puzzleManager = FindFirstObjectByType<PuzzleManager>();
+            wordMappingPanel = FindFirstObjectByType<WordMappingPanel>();
             
             if (submitButton != null)
                 submitButton.onClick.AddListener(OnSubmitTranslation);

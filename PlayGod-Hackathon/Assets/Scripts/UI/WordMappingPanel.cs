@@ -25,7 +25,7 @@ namespace Lexicon.UI
         
         private void Start()
         {
-            puzzleManager = FindObjectOfType<PuzzleManager>();
+            puzzleManager = FindFirstObjectByType<PuzzleManager>();
             
             if (addMappingButton != null)
                 addMappingButton.onClick.AddListener(ShowAddMappingPanel);

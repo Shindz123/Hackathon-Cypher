@@ -32,7 +32,7 @@ namespace Lexicon.UI
         
         private void Start()
         {
-            progressionSystem = FindObjectOfType<ProgressionSystem>();
+            progressionSystem = FindFirstObjectByType<ProgressionSystem>();
             if (progressionSystem == null)
             {
                 GameObject go = new GameObject("ProgressionSystem");

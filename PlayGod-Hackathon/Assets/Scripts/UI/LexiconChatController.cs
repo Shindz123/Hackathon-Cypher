@@ -17,22 +17,26 @@ namespace Lexicon.UI
         [SerializeField] private LexiconAIController aiController;
         [SerializeField] private VisualNovelUI visualNovelUI;
         [SerializeField] private PuzzleManager puzzleManager;
-        [SerializeField] private TranslationPanel translationPanel;
+        [SerializeField] private SentenceSubmissionPanel sentenceSubmissionPanel;
+        [SerializeField] private TranslationPanel translationPanel; // Legacy (optional)
         
         private void Start()
         {
             // Find components if not assigned
             if (aiController == null)
-                aiController = FindObjectOfType<LexiconAIController>();
+                aiController = FindFirstObjectByType<LexiconAIController>();
             
             if (visualNovelUI == null)
-                visualNovelUI = FindObjectOfType<VisualNovelUI>();
+                visualNovelUI = FindFirstObjectByType<VisualNovelUI>();
             
             if (puzzleManager == null)
-                puzzleManager = FindObjectOfType<PuzzleManager>();
+                puzzleManager = FindFirstObjectByType<PuzzleManager>();
+            
+            if (sentenceSubmissionPanel == null)
+                sentenceSubmissionPanel = FindFirstObjectByType<SentenceSubmissionPanel>();
             
             if (translationPanel == null)
-                translationPanel = FindObjectOfType<TranslationPanel>();
+                translationPanel = FindFirstObjectByType<TranslationPanel>();
             
             // Setup event listeners
             if (chatInput != null)
@@ -55,11 +59,8 @@ namespace Lexicon.UI
                 puzzleManager.OnMappingDiscovered.AddListener(OnMappingDiscovered);
             }
             
-            // Display initial riddle
-            if (visualNovelUI != null && puzzleManager != null && puzzleManager.CurrentPuzzle != null)
-            {
-                visualNovelUI.SetRiddleText(puzzleManager.CurrentPuzzle.RiddleSentence);
-            }
+            // Display initial riddle (delayed to ensure puzzle is loaded)
+            StartCoroutine(DisplayInitialRiddle());
         }
         
         private void OnPlayerMessage(string message)
@@ -158,14 +159,32 @@ namespace Lexicon.UI
         
         private void HandleSolveCommand()
         {
-            if (translationPanel != null)
+            // Use new sentence submission panel if available
+            if (sentenceSubmissionPanel != null)
+            {
+                sentenceSubmissionPanel.ShowPanel();
+                
+                if (chatPanel != null)
+                {
+                    chatPanel.AddMessage("Ready to solve? Type the decoded sentence and submit!", false);
+                }
+            }
+            // Fallback to old translation panel
+            else if (translationPanel != null)
             {
                 translationPanel.ShowPanel();
+                
+                if (chatPanel != null)
+                {
+                    chatPanel.AddMessage("Opening translation panel... Good luck, seeker!", false);
+                }
             }
-            
-            if (chatPanel != null)
+            else
             {
-                chatPanel.AddMessage("Opening translation panel... Good luck, seeker!", false);
+                if (chatPanel != null)
+                {
+                    chatPanel.AddMessage("Submission panel not found! Please set up SentenceSubmissionPanel.", false);
+                }
             }
         }
         
@@ -201,6 +220,35 @@ namespace Lexicon.UI
             {
                 visualNovelUI.SkipTypewriter();
             }
+        }
+        
+        private System.Collections.IEnumerator DisplayInitialRiddle()
+        {
+            // Wait a frame to ensure PuzzleManager has loaded
+            yield return new WaitForEndOfFrame();
+            
+            // Try a few times with delays
+            for (int i = 0; i < 5; i++)
+            {
+                if (puzzleManager != null && puzzleManager.CurrentPuzzle != null)
+                {
+                    if (visualNovelUI != null)
+                    {
+                        visualNovelUI.SetRiddleText(puzzleManager.CurrentPuzzle.RiddleSentence);
+                    }
+                    Debug.Log("Riddle displayed successfully!");
+                    yield break;
+                }
+                
+                Debug.LogWarning($"Waiting for puzzle to load... Attempt {i + 1}/5");
+                yield return new WaitForSeconds(0.2f);
+            }
+            
+            // If we got here, puzzle still not loaded
+            Debug.LogError("Failed to load puzzle after multiple attempts! Check:\n" +
+                "1. GameManager has PuzzleDatabase assigned\n" +
+                "2. PuzzleManager component exists on GameManager\n" +
+                "3. PuzzleDatabase has puzzles in it");
         }
     }
 }

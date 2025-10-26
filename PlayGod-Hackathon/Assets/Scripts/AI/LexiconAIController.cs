@@ -26,7 +26,7 @@ namespace Lexicon.AI
         private void Start()
         {
             if (puzzleManager == null)
-                puzzleManager = FindObjectOfType<PuzzleManager>();
+                puzzleManager = FindFirstObjectByType<PuzzleManager>();
             
             // Subscribe to smart agent events
             smartAgent.OnChatResponseReceived.AddListener(OnAIResponseReceived);
@@ -75,7 +75,7 @@ namespace Lexicon.AI
             if (puzzleManager == null)
             {
                 Debug.LogError("PuzzleManager not found! Make sure it exists in the scene.");
-                puzzleManager = FindObjectOfType<PuzzleManager>();
+                puzzleManager = FindFirstObjectByType<PuzzleManager>();
                 if (puzzleManager == null)
                     return;
             }

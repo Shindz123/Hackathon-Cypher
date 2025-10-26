@@ -22,7 +22,7 @@ namespace Lexicon.Utils
         private void InitializeGame()
         {
             // Check if GameManager already exists in scene
-            GameManager existingGM = FindObjectOfType<GameManager>();
+            GameManager existingGM = FindFirstObjectByType<GameManager>();
             
             if (existingGM != null)
             {

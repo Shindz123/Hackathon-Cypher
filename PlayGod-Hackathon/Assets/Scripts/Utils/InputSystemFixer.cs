@@ -18,7 +18,7 @@ namespace Lexicon.Utils
         public static void FixEventSystemInputModule()
         {
             // Find all EventSystem objects in the scene
-            EventSystem[] eventSystems = FindObjectsOfType<EventSystem>();
+            EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
             
             foreach (EventSystem es in eventSystems)
             {
@@ -68,7 +68,7 @@ namespace Lexicon.Utils
         public static void CreateInputSystemEventSystem()
         {
             // Check if EventSystem already exists
-            if (FindObjectOfType<EventSystem>() != null)
+            if (FindFirstObjectByType<EventSystem>() != null)
             {
                 Debug.LogWarning("EventSystem already exists in scene!");
                 return;
