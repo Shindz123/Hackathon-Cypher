@@ -80,10 +80,22 @@ namespace Lexicon.UI
             // Wait for puzzle to load
             yield return new WaitForSeconds(0.3f);
             
-            if (puzzleManager != null && puzzleManager.CurrentPuzzle != null)
+            // Re-find puzzle manager in case scene just loaded
+            puzzleManager = FindFirstObjectByType<PuzzleManager>();
+            
+            // Try multiple times to get the puzzle
+            for (int i = 0; i < 10; i++)
             {
-                RefreshPuzzle();
+                if (puzzleManager != null && puzzleManager.CurrentPuzzle != null)
+                {
+                    Debug.Log($"SentenceSubmissionPanel: Puzzle loaded - {puzzleManager.CurrentPuzzle.PuzzleName}");
+                    RefreshPuzzle();
+                    yield break;
+                }
+                yield return new WaitForSeconds(0.1f);
             }
+            
+            Debug.LogError("SentenceSubmissionPanel: Failed to load puzzle after waiting!");
         }
         
         public void ShowPanel()
@@ -96,6 +108,12 @@ namespace Lexicon.UI
         
         public void RefreshPuzzle()
         {
+            // Re-find puzzle manager if needed
+            if (puzzleManager == null)
+            {
+                puzzleManager = FindFirstObjectByType<PuzzleManager>();
+            }
+            
             if (puzzleManager == null || puzzleManager.CurrentPuzzle == null)
             {
                 Debug.LogWarning("Cannot refresh submission panel: No puzzle loaded!");
@@ -104,6 +122,11 @@ namespace Lexicon.UI
             
             currentPuzzle = puzzleManager.CurrentPuzzle;
             
+            Debug.Log($"=== REFRESHING SUBMISSION PANEL ===");
+            Debug.Log($"New Puzzle: {currentPuzzle.PuzzleName}");
+            Debug.Log($"New Riddle: {currentPuzzle.RiddleSentence}");
+            Debug.Log($"New Target: {currentPuzzle.TargetTranslation}");
+            
             // Display the riddle
             if (riddleDisplayText != null)
             {
@@ -111,6 +134,12 @@ namespace Lexicon.UI
                     riddleDisplayText.text = currentPuzzle.RiddleSentence;
                 else
                     riddleDisplayText.text = $"Original Riddle:\n\"{currentPuzzle.RiddleSentence}\"";
+                
+                Debug.Log($"Updated riddle text to: {riddleDisplayText.text}");
+            }
+            else
+            {
+                Debug.LogWarning("RiddleDisplayText is null!");
             }
             
             // Clear previous input
@@ -131,7 +160,7 @@ namespace Lexicon.UI
             // Reset processing state
             isProcessing = false;
             
-            Debug.Log($"Submission panel refreshed for puzzle: {currentPuzzle.PuzzleName}");
+            Debug.Log($"✅ Submission panel refreshed successfully!");
         }
         
         public void HidePanel()
@@ -319,6 +348,11 @@ namespace Lexicon.UI
             {
                 Debug.Log("Advancing to next puzzle...");
                 GameManager.Instance.AdvanceToNextPuzzle();
+                
+                // Important: Save before reloading scene
+                PlayerPrefs.Save();
+                
+                // Reload the scene
                 GameManager.Instance.LoadPuzzleScene();
             }
             else

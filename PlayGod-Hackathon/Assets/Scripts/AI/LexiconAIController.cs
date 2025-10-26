@@ -11,6 +11,7 @@ namespace Lexicon.AI
     {
         [Header("References")]
         [SerializeField] private PuzzleManager puzzleManager;
+        [SerializeField] private AICharacterSettings characterSettings;
         
         private NeocortexSmartAgent smartAgent;
         private PuzzleData currentPuzzle;
@@ -27,6 +28,16 @@ namespace Lexicon.AI
         {
             if (puzzleManager == null)
                 puzzleManager = FindFirstObjectByType<PuzzleManager>();
+            
+            // Auto-load character settings if not assigned
+            if (characterSettings == null)
+            {
+                characterSettings = Resources.Load<AICharacterSettings>("AICharacterSettings");
+                if (characterSettings == null)
+                {
+                    Debug.LogWarning("AICharacterSettings not found! Using default behavior.");
+                }
+            }
             
             // Subscribe to smart agent events
             smartAgent.OnChatResponseReceived.AddListener(OnAIResponseReceived);
@@ -57,8 +68,16 @@ namespace Lexicon.AI
                 return;
             }
             
-            // This will be displayed in the chat as the AI's opening message
-            string greeting = $"Greetings, seeker of truth. I am Lexara, keeper of riddles.\n\nPonder this mystery:\n\n\"{currentPuzzle.RiddleSentence}\"\n\nAsk your questions wisely, and you may uncover what lies beneath the veil of words.";
+            // Get greeting from settings or use default
+            string greeting;
+            if (characterSettings != null)
+            {
+                greeting = characterSettings.GetInitialGreeting(currentPuzzle.RiddleSentence);
+            }
+            else
+            {
+                greeting = $"Greetings, seeker of truth. I am Lexara, keeper of riddles.\n\nPonder this mystery:\n\n\"{currentPuzzle.RiddleSentence}\"\n\nAsk your questions wisely, and you may uncover what lies beneath the veil of words.";
+            }
             
             // Broadcast as initial message without calling API (safely)
             try
@@ -177,7 +196,19 @@ Remember: Answer cryptically based on the ACTUAL meanings, not the riddle words.
             }
             
             string hint = puzzleManager.GetHint();
-            BroadcastAIMessage($"*Lexara whispers a hint*: {hint}");
+            
+            // Use settings for hint message format
+            string hintMessage;
+            if (characterSettings != null)
+            {
+                hintMessage = characterSettings.GetHintMessage(hint);
+            }
+            else
+            {
+                hintMessage = $"*Lexara whispers a hint*: {hint}";
+            }
+            
+            BroadcastAIMessage(hintMessage);
         }
         
         private void HandleRiddleCommand()
@@ -188,7 +219,23 @@ Remember: Answer cryptically based on the ACTUAL meanings, not the riddle words.
                 return;
             }
             
-            BroadcastAIMessage($"The riddle you seek to unravel:\n\n\"{currentPuzzle.RiddleSentence}\"");
+            // Use settings for riddle repeat message
+            string riddleMessage;
+            if (characterSettings != null)
+            {
+                riddleMessage = characterSettings.GetRiddleRepeatMessage(currentPuzzle.RiddleSentence);
+            }
+            else
+            {
+                riddleMessage = $"The riddle you seek to unravel:\n\n\"{currentPuzzle.RiddleSentence}\"";
+            }
+            
+            BroadcastAIMessage(riddleMessage);
+        }
+        
+        public AICharacterSettings GetCharacterSettings()
+        {
+            return characterSettings;
         }
         
         private void BroadcastAIMessage(string message)

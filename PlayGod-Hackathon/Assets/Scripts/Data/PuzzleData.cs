@@ -47,31 +47,58 @@ namespace Lexicon.Data
         
         public string GetSystemPrompt()
         {
+            // Use custom prompt if configured
             if (!string.IsNullOrEmpty(systemPromptTemplate))
                 return systemPromptTemplate;
             
-            // Generate default system prompt
+            // If no custom prompt, show warning
+            Debug.LogWarning($"Puzzle '{puzzleName}' has no System Prompt Template configured! Please set one in the Inspector.");
+            
+            // Return minimal fallback
+            return "You are Lexara, a mystical oracle. Answer questions poetically and cryptically.";
+        }
+        
+        /// <summary>
+        /// Helper method to generate a reference prompt showing all mappings
+        /// Use this as a starting point to customize in the Inspector
+        /// </summary>
+        [ContextMenu("Generate Default Prompt")]
+        public void GenerateDefaultPromptToConsole()
+        {
             string mappingsString = "";
             foreach (var mapping in wordMappings)
             {
-                mappingsString += $"'{mapping.riddleWord}' actually means '{mapping.actualMeaning}', ";
+                mappingsString += $"  '{mapping.riddleWord}' = '{mapping.actualMeaning}'\n";
             }
-            mappingsString = mappingsString.TrimEnd(' ', ',');
             
-            return $@"You are Lexara, a mystical AI oracle who speaks only in riddles and poetic language.
+            string defaultPrompt = $@"You are Lexara, a mystical AI oracle who speaks only in riddles and poetic language.
 
-You know these secret word mappings: {mappingsString}.
+PUZZLE: {puzzleName}
+
+SECRET WORD MAPPINGS FOR THIS PUZZLE:
+{mappingsString}
 
 IMPORTANT RULES:
 1. When the player asks questions, answer based on the ACTUAL meaning, not the riddle word
 2. Never directly reveal the mappings - always respond poetically and cryptically
 3. Give clues through metaphors, questions, and indirect descriptions
-4. If asked about properties (like 'Does the leaf fly?'), consider the actual meaning (bird)
+4. If asked about properties (like 'Does the leaf fly?'), consider the actual meaning (e.g., bird)
 5. Be mysterious, whimsical, and encouraging
 6. Keep responses concise (2-3 sentences max)
 7. Use vivid imagery and nature metaphors
 
-Example: If asked 'Does the leaf have wings?', respond like: 'In the realm where shadows dance, what you call leaf knows the embrace of wind and sky, though roots bind it not.'";
+EXAMPLES:
+Q: 'Does the leaf have wings?'
+A: 'Indeed, what you name leaf knows the freedom of flight, soaring on currents of wind.'
+
+Q: 'Can the sun be seen at night?'
+A: 'The orb I call sun graces the darkness, waxing and waning through its celestial dance.'
+
+Remember: Help them discover truth through thoughtful hints, not direct revelation.";
+
+            Debug.Log("=== DEFAULT PROMPT FOR COPY/PASTE ===");
+            Debug.Log(defaultPrompt);
+            Debug.Log("=== Copy this and paste into System Prompt Template field ===");
         }
         
         public int CalculateScore(int correctMappings, int questionsAsked)

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11c6b86758b70944d83c3bb6179f8ff3, type: 3}
+  m_Name: AICharacterSettings
+  m_EditorClassIdentifier: 
+  characterName: Shindz
+  characterTitle: Keeper of Riddles
+  characterDescription: A mystical AI oracle who speaks only in riddles and poetic
+    language.
+  initialGreeting: 'Greetings, seeker of truth. I am {NAME}, {TITLE}.
+
+
+    Ponder
+    this mystery:
+
+
+    "{RIDDLE}"
+
+
+    Ask your questions wisely, and you may uncover
+    what lies beneath the veil of words.'
+  puzzleCompleteGreeting: Well done, seeker! You have unraveled my riddle.
+  newPuzzleGreeting: A new challenge awaits. Let us see if your wisdom has grown...
+  mysteryLevel: 5
+  useEmotionalResponses: 1
+  encouragePlayerWhenStuck: 1
+  questionsBeforeExtraHint: 10
+  nameColor: {r: 1, g: 0.84, b: 0, a: 1}
+  typewriterSpeed: 0.05
+  hintMessage: '*{NAME} whispers a hint*: {HINT}'
+  riddleRepeatMessage: 'The riddle you seek to unravel:
+
+
+    "{RIDDLE}"'
+  stuckMessage: I sense you are struggling, seeker. Perhaps approach from a different
+    angle?

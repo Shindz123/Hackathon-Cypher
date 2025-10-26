@@ -9,6 +9,9 @@ namespace Lexicon.UI
 {
     public class VisualNovelUI : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private AICharacterSettings characterSettings;
+        
         [Header("Portrait")]
         [SerializeField] private CharacterPortraitController portraitController;
         
@@ -32,9 +35,31 @@ namespace Lexicon.UI
         
         private void Start()
         {
+            // Auto-load character settings if not assigned
+            if (characterSettings == null)
+            {
+                characterSettings = Resources.Load<AICharacterSettings>("AICharacterSettings");
+            }
+            
             // Set character name
             if (characterNameText != null)
-                characterNameText.text = "Lexara";
+            {
+                if (characterSettings != null)
+                {
+                    characterNameText.text = characterSettings.CharacterName;
+                    characterNameText.color = characterSettings.NameColor;
+                }
+                else
+                {
+                    characterNameText.text = "Lexara";
+                }
+            }
+            
+            // Set typewriter speed from settings
+            if (characterSettings != null)
+            {
+                typewriterSpeed = characterSettings.TypewriterSpeed;
+            }
             
             // Initialize display
             UpdateQuestionsCount(0);

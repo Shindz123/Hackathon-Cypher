@@ -28,6 +28,23 @@ namespace Lexicon.Managers
         
         public void LoadPuzzle()
         {
+            // Verify GameManager exists
+            if (GameManager.Instance == null)
+            {
+                Debug.LogError("❌ GameManager.Instance is NULL! Cannot load puzzle.");
+                Debug.LogError("SOLUTION: Make sure a GameObject with GameManager component exists in scene");
+                return;
+            }
+            
+            // Verify Database exists
+            if (GameManager.Instance.Database == null)
+            {
+                Debug.LogError("❌ GameManager.Database is NULL! Cannot load puzzle.");
+                Debug.LogError("SOLUTION 1: Select GameManager in Hierarchy → Assign PuzzleDatabase in Inspector");
+                Debug.LogError("SOLUTION 2: Add LexiconSceneManager to scene and assign PuzzleDatabase there");
+                return;
+            }
+            
             currentPuzzle = GameManager.Instance.GetCurrentPuzzle();
             
             if (currentPuzzle != null)
@@ -36,12 +53,39 @@ namespace Lexicon.Managers
                 playerMappings.Clear();
                 correctMappings = currentPuzzle.GetMappingsDictionary();
                 
-                Debug.Log($"Loaded puzzle: {currentPuzzle.PuzzleName}");
+                Debug.Log($"=== PUZZLE LOADED ===");
+                Debug.Log($"Puzzle Name: {currentPuzzle.PuzzleName}");
                 Debug.Log($"Riddle: {currentPuzzle.RiddleSentence}");
+                Debug.Log($"Target: {currentPuzzle.TargetTranslation}");
+                Debug.Log($"Word Mappings: {correctMappings.Count}");
+                Debug.Log("====================");
+                
+                // Notify other components that puzzle changed
+                NotifyPuzzleChanged();
             }
             else
             {
-                Debug.LogError("Failed to load puzzle!");
+                Debug.LogError($"❌ GetCurrentPuzzle() returned NULL!");
+                Debug.LogError($"Current Puzzle Index: {GameManager.Instance.CurrentPuzzleIndex}");
+                Debug.LogError($"Total Puzzles in Database: {GameManager.Instance.Database.TotalPuzzles}");
+                Debug.LogError("SOLUTION: Check that PuzzleDatabase has puzzles in the list");
+            }
+        }
+        
+        private void NotifyPuzzleChanged()
+        {
+            // Find and notify RiddleDisplay to refresh
+            var riddleDisplay = FindFirstObjectByType<Lexicon.UI.RiddleDisplay>();
+            if (riddleDisplay != null)
+            {
+                riddleDisplay.OnPuzzleChanged();
+            }
+            
+            // Find and notify SentenceSubmissionPanel to refresh
+            var submissionPanel = FindFirstObjectByType<Lexicon.UI.SentenceSubmissionPanel>();
+            if (submissionPanel != null)
+            {
+                submissionPanel.RefreshPuzzle();
             }
         }
         

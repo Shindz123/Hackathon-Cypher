@@ -11,6 +11,7 @@ namespace Lexicon.UI
         [Header("Buttons")]
         [SerializeField] private Button newGameButton;
         [SerializeField] private Button continueButton;
+        [SerializeField] private Button replayFromLevel1Button;
         [SerializeField] private Button puzzleSelectButton;
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button quitButton;
@@ -45,6 +46,9 @@ namespace Lexicon.UI
             
             if (continueButton != null)
                 continueButton.onClick.AddListener(OnContinue);
+            
+            if (replayFromLevel1Button != null)
+                replayFromLevel1Button.onClick.AddListener(OnReplayFromLevel1);
             
             if (puzzleSelectButton != null)
                 puzzleSelectButton.onClick.AddListener(OnPuzzleSelect);
@@ -83,6 +87,17 @@ namespace Lexicon.UI
         private void OnContinue()
         {
             GameManager.Instance.ContinueGame();
+        }
+        
+        private void OnReplayFromLevel1()
+        {
+            // Show confirmation dialog
+            if (PlayerPrefs.GetInt("CurrentPuzzleIndex", 0) > 0)
+            {
+                Debug.Log("Resetting progress and restarting from Level 1...");
+            }
+            
+            GameManager.Instance.ReplayFromLevel1();
         }
         
         private void OnPuzzleSelect()

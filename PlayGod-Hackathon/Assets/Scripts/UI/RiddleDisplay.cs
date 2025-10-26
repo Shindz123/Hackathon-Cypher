@@ -200,7 +200,30 @@ namespace Lexicon.UI
         /// </summary>
         public void RefreshRiddle()
         {
+            // Force re-find puzzle manager in case scene reloaded
+            puzzleManager = FindFirstObjectByType<PuzzleManager>();
+            
+            if (puzzleManager == null)
+            {
+                Debug.LogWarning("RefreshRiddle: PuzzleManager not found!");
+                return;
+            }
+            
             DisplayRiddle();
+        }
+        
+        /// <summary>
+        /// Call this when scene reloads or puzzle changes
+        /// </summary>
+        public void OnPuzzleChanged()
+        {
+            StartCoroutine(RefreshAfterDelay());
+        }
+        
+        private System.Collections.IEnumerator RefreshAfterDelay()
+        {
+            yield return new WaitForSeconds(0.3f);
+            RefreshRiddle();
         }
         
         /// <summary>

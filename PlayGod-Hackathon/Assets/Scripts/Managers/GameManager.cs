@@ -12,6 +12,9 @@ namespace Lexicon.Managers
         [Header("References")]
         [SerializeField] private PuzzleDatabase puzzleDatabase;
         
+        [Header("Development Settings")]
+        [SerializeField] private bool alwaysStartAtLevel1InEditor = true;
+        
         private int currentPuzzleIndex = 0;
         private int totalScore = 0;
         
@@ -32,15 +35,47 @@ namespace Lexicon.Managers
             instance = this;
             DontDestroyOnLoad(gameObject);
             
-            // Validate setup
+            // Try to auto-load PuzzleDatabase if not assigned
             if (puzzleDatabase == null)
             {
-                Debug.LogError("GameManager: PuzzleDatabase is not assigned! Please assign it in the Inspector.");
+                Debug.LogWarning("GameManager: PuzzleDatabase not assigned, attempting to auto-load...");
+                puzzleDatabase = Resources.Load<PuzzleDatabase>("PuzzleDatabase");
+                
+                if (puzzleDatabase == null)
+                {
+                    // Try alternate path
+                    var databases = Resources.LoadAll<PuzzleDatabase>("");
+                    if (databases != null && databases.Length > 0)
+                    {
+                        puzzleDatabase = databases[0];
+                        Debug.Log($"✅ Auto-loaded PuzzleDatabase: {puzzleDatabase.name}");
+                    }
+                }
+            }
+            
+            // Final validation
+            if (puzzleDatabase == null)
+            {
+                Debug.LogError("❌ CRITICAL: GameManager has no PuzzleDatabase!");
+                Debug.LogError("SOLUTION 1: Select GameManager → Drag PuzzleDatabase from Assets/Data/ to Inspector");
+                Debug.LogError("SOLUTION 2: Move PuzzleDatabase.asset to Assets/Resources/ folder");
+                Debug.LogError("SOLUTION 3: Use LexiconSceneManager component to auto-assign it");
+            }
+            else
+            {
+                Debug.Log($"✅ GameManager initialized with {puzzleDatabase.TotalPuzzles} puzzles");
             }
             
             LoadProgress();
             
-            Debug.Log("GameManager initialized successfully.");
+            // Development feature: Always start at Level 1 when pressing Play in Unity Editor
+            #if UNITY_EDITOR
+            if (alwaysStartAtLevel1InEditor)
+            {
+                currentPuzzleIndex = 0;
+                Debug.Log("🎮 [EDITOR MODE] Starting at Level 1 (alwaysStartAtLevel1InEditor is enabled)");
+            }
+            #endif
         }
         
         public void StartNewGame()
@@ -185,6 +220,15 @@ namespace Lexicon.Managers
             PlayerPrefs.DeleteKey("UnlockedPuzzles");
             PlayerPrefs.SetInt("UnlockedPuzzles", 1);
             PlayerPrefs.Save();
+            
+            Debug.Log("Progress reset - starting from Level 1");
+        }
+        
+        public void ReplayFromLevel1()
+        {
+            ResetProgress();
+            LoadPuzzleScene();
+            Debug.Log("Replaying from Level 1!");
         }
     }
 }

@@ -95,7 +95,7 @@ ScriptedImporter:
     spritePosition: {x: 0, y: 0}
   multiSpriteImportData: []
   layeredSpriteImportData:
-  - name: Layer 1 copy 2
+  - name: Layer 1
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -107,7 +107,7 @@ ScriptedImporter:
       y: 4
       width: 2506
       height: 1440
-    spriteID: 64b6d2c515b7a54438ac34635162be4d
+    spriteID: ee5759fa3635ff540ba30b21e13cf608
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -148,12 +148,12 @@ ScriptedImporter:
   resliceFromLayer: 0
   pSDLayerImportSetting: []
   psdLayers:
-  - name: Layer 1 copy 2
-    spriteName: Layer 1 copy 2
+  - name: Layer 1
+    spriteName: Layer 1
     isGroup: 0
     parentIndex: -1
-    spriteID: 64b6d2c515b7a54438ac34635162be4d
-    layerID: 4
+    spriteID: ee5759fa3635ff540ba30b21e13cf608
+    layerID: 10
     mosaicPosition: {x: 4, y: 4}
     flatten: 0
     isImported: 1
